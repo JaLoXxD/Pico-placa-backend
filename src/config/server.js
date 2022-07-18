@@ -4,6 +4,7 @@ class Server {
 		this.api = this.express();
 		this.cors = require("cors");
 		this.bodyParser = require("body-parser");
+		this.router = require("../routes/index");
 		require("dotenv").config();
 	}
 	setPort() {
@@ -17,6 +18,7 @@ class Server {
 	}
 	start() {
 		this.setPort();
+		this.api.use(this.router);
 		this.connectMongoDB();
 		this.api.listen(this.api.get("port"), () => {
 			console.log(`Server is listening at port ${this.api.get("port")}`);
