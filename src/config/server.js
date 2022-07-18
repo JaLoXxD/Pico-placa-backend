@@ -11,6 +11,11 @@ class Server {
 		const { API_PORT } = process.env;
 		this.api.set("port", process.env.PORT || API_PORT);
 	}
+	setMiddleware() {
+		this.api.use(this.bodyParser.urlencoded({ extended: true }));
+		this.api.use(this.bodyParser.json());
+		this.api.use(this.cors());
+	}
 	connectMongoDB() {
 		const DB = require("./database");
 		const conn = new DB();
@@ -18,6 +23,7 @@ class Server {
 	}
 	start() {
 		this.setPort();
+		this.setMiddleware();
 		this.api.use(this.router);
 		this.connectMongoDB();
 		this.api.listen(this.api.get("port"), () => {

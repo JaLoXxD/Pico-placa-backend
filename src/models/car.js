@@ -9,7 +9,7 @@ const carSchema = new Schema({
 	anio: { type: Number },
 });
 
-userSchema.plugin(uniqueValidator, {
+carSchema.plugin(uniqueValidator, {
 	message: "{PATH} debe de ser unico",
 });
 

@@ -1,9 +1,9 @@
 const router = require("express-promise-router")();
+const CarController = require("../controllers/car");
 
-router.get("/", (req, resp) => {
-	resp.status(200).json({
-		message: "Hola mundo",
-	});
-});
+const handler = new CarController();
+
+router.post("/createCar", (req, res) => handler.create(req, res));
+router.get("/checkCar", (req, res) => handler.checkCirculation(req, res));
 
 module.exports = router;
