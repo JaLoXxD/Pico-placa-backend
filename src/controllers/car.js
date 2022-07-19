@@ -1,3 +1,4 @@
+const moment = require("moment");
 class Car {
 	constructor() {
 		this.carSchema = require("../models/car");
@@ -29,7 +30,7 @@ class Car {
 	async checkCirculation(req, res) {
 		try {
 			const { placa, date } = req.query;
-			if (new Date(date) < Date.now()) {
+			if (moment().diff(moment(date), "minutes") > 1) {
 				return res.status(200).json({
 					success: false,
 					message: `The date cannot be less than current date`,
@@ -37,24 +38,24 @@ class Car {
 			}
 			const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 			const lastNumber = placa.slice(-1);
-			const day = new Date().getDay();
+			const day = moment(date).format("dddd");
 			let allowedNumbers = [];
-			if (day === 1) {
+			if (day === "Monday") {
 				allowedNumbers = [1, 2];
 			}
-			if (day === 2) {
+			if (day === "Tuesday") {
 				allowedNumbers = [3, 4];
 			}
-			if (day === 3) {
+			if (day === "Wednesday") {
 				allowedNumbers = [5, 6];
 			}
-			if (day === 4) {
+			if (day === "Thursday") {
 				allowedNumbers = [7, 8];
 			}
-			if (day === 5) {
+			if (day === "Friday") {
 				allowedNumbers = [9, 0];
 			}
-			if (day === 6 || day === 7) {
+			if (day === "Saturday" || day === "Sunday") {
 				allowedNumbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 			}
 			let allowed = false;
