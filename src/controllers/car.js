@@ -34,6 +34,10 @@ class Car {
 				return res.status(200).json({
 					success: false,
 					message: `The date cannot be less than current date`,
+					info: {
+						currentDate: moment(),
+						inputDate: moment(date),
+					},
 				});
 			}
 			const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
@@ -59,7 +63,26 @@ class Car {
 				allowedNumbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 			}
 			let allowed = false;
-			if (allowedNumbers.includes(parseInt(lastNumber))) {
+			const startPeriod1 = moment(date);
+			startPeriod1.set('hour',6);
+			startPeriod1.set('minute',0);
+			startPeriod1.set('second',0);
+			const endPeriod1 = moment(date);
+			endPeriod1.set('hour',9);
+			endPeriod1.set('minute',30);
+			endPeriod1.set('second',0);
+			const startPeriod2 = moment(date);
+			startPeriod2.set('hour',16);
+			startPeriod2.set('minute',0);
+			startPeriod2.set('second',0);
+			const endPeriod2 = moment(date);
+			endPeriod2.set('hour',21);
+			endPeriod2.set('minute',0);
+			endPeriod2.set('second',0);
+			if (
+				allowedNumbers.includes(parseInt(lastNumber)) &&
+				(!moment(date).isBetween(startPeriod1, endPeriod1) && !moment(date).isBetween(startPeriod2, endPeriod2))
+			) {
 				allowed = true;
 			}
 			const filter = {
