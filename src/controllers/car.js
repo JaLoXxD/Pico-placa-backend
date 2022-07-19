@@ -28,7 +28,7 @@ class Car {
 	}
 	async checkCirculation(req, res) {
 		try {
-			const { placa, date } = req.body;
+			const { placa, date } = req.query;
 			if (new Date(date) < Date.now()) {
 				return res.status(200).json({
 					success: false,
