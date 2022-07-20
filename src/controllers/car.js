@@ -50,12 +50,12 @@ class Car {
 			const { placa, date } = req.query;
 			console.log(date);
 			console.log(moment.utc().format("YYYY-MM-DD HH:mm"));
-			if (moment.utc().diff(moment.utc(new Date(date).toISOString()), "minutes") > 1) {
+			if (moment.utc(new Date().toISOString()).diff(moment.utc(new Date(date).toISOString()), "minutes") > 1) {
 				return res.status(200).json({
 					success: false,
 					message: `The date cannot be less than current date`,
 					info: {
-						currentDate: moment.utc(),
+						currentDate: moment.utc(new Date().toISOString()),
 						inputDate: moment.utc(new Date(date).toISOString()),
 					},
 				});
