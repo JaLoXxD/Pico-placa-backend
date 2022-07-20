@@ -17,7 +17,7 @@ class Car {
 					message: "All the inputs are required. Please check and try again.",
 				});
 			}
-			if(!this.validateCarPlate(placa)){
+			if (!this.validateCarPlate(placa)) {
 				return res.status(400).json({
 					success: false,
 					message: "Please type a valid car plate.",
@@ -53,8 +53,8 @@ class Car {
 					success: false,
 					message: `The date cannot be less than current date`,
 					info: {
-						currentDate: moment(),
-						inputDate: moment(date),
+						currentDate: moment().toLocaleString(),
+						inputDate: moment(date).toLocaleString(),
 					},
 				});
 			}
@@ -125,6 +125,22 @@ class Car {
 			});
 		} catch (err) {
 			console.log(err);
+			return res.status(500).json({
+				success: false,
+				message: "There was an error...",
+				err,
+			});
+		}
+	}
+	async getAllCars(req, res) {
+		try {
+			const cars = await this.carSchema.find();
+			return res.status(200).json({
+				success: true,
+				message: "All cars...",
+				cars,
+			});
+		} catch (err) {
 			return res.status(500).json({
 				success: false,
 				message: "There was an error...",

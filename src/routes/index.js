@@ -5,5 +5,6 @@ const handler = new CarController();
 
 router.post("/createCar", (req, res) => handler.create(req, res));
 router.get("/checkCar", (req, res) => handler.checkCirculation(req, res));
+router.get("/allCars", (req, res) => handler.getAllCars(req, res));
 
 module.exports = router;
