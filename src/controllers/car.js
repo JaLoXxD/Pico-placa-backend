@@ -54,7 +54,7 @@ class Car {
 			console.log(inputTime);
 			console.log(new Date().getTimezoneOffset());
 			console.log(serverTime.diff(inputTime, "minutes"));
-			if (serverTime.diff(inputTime, "minutes") > new Date().getTimezoneOffset()) {
+			if (serverTime.diff(inputTime, "minutes") > 300) {
 				return res.status(200).json({
 					success: false,
 					message: `The date cannot be less than current date`,
