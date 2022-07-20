@@ -50,10 +50,6 @@ class Car {
 			const { placa, date } = req.query;
 			const serverTime = moment();
 			const inputTime = moment(new Date(date)).utc().utcOffset("+05:00");
-			console.log(serverTime);
-			console.log(inputTime);
-			console.log(new Date().getTimezoneOffset());
-			console.log(serverTime.diff(inputTime, "minutes"));
 			if (serverTime.diff(inputTime, "minutes") > 300) {
 				return res.status(200).json({
 					success: false,
@@ -104,9 +100,9 @@ class Car {
 			endPeriod2.set("minute", 0);
 			endPeriod2.set("second", 0);
 			if (
-				allowedNumbers.includes(parseInt(lastNumber)) &&
+				(allowedNumbers.includes(parseInt(lastNumber)) &&
 				!moment(date).isBetween(startPeriod1, endPeriod1) &&
-				!moment(date).isBetween(startPeriod2, endPeriod2)
+				!moment(date).isBetween(startPeriod2, endPeriod2)) || !allowedNumbers.includes(parseInt(lastNumber))
 			) {
 				allowed = true;
 			}
