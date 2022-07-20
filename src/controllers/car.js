@@ -53,8 +53,8 @@ class Car {
 					success: false,
 					message: `The date cannot be less than current date`,
 					info: {
-						currentDate: moment().toLocaleString(),
-						inputDate: moment(date).toLocaleString(),
+						currentDate: moment.utc(),
+						inputDate: moment.utc(date),
 					},
 				});
 			}
