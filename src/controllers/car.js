@@ -49,9 +49,10 @@ class Car {
 		try {
 			const { placa, date } = req.query;
 			const serverTime = moment();
-			const inputTime = moment(new Date(date)).utc().utcOffset("+00:00");
+			const inputTime = moment(new Date(date)).utc().utcOffset("+05:00");
 			console.log(serverTime);
 			console.log(inputTime);
+			console.log(serverTime.diff(inputTime, "minutes"));
 			if (serverTime.diff(inputTime, "minutes") > 1) {
 				return res.status(200).json({
 					success: false,
