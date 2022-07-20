@@ -3,23 +3,41 @@ class Car {
 	constructor() {
 		this.carSchema = require("../models/car");
 	}
+	validateCarPlate = (val) => {
+		const rules = /^[A-Z]{3}-\d{3,4}?$/;
+		return rules.test(val);
+	};
 	async create(req, res) {
 		try {
 			const { placa, color, modelo, chasis, anio } = req.body;
+
+			if (placa === "" || color === "" || modelo === "" || chasis === "" || anio === "") {
+				return res.status(400).json({
+					success: false,
+					message: "All the inputs are required. Please check and try again.",
+				});
+			}
+			if(!this.validateCarPlate(placa)){
+				return res.status(400).json({
+					success: false,
+					message: "Please type a valid car plate.",
+				});
+			}
 			const newCar = this.carSchema({
 				placa: placa,
 				color: color,
 				modelo: modelo,
 				chasis: chasis,
-				anio: anio,
+				anio: parseInt(anio),
 			});
 			const query = await newCar.save();
 			return res.status(200).json({
 				success: true,
-				message: "Car added successfully...",
+				message: "Car saved successfully...",
 				query,
 			});
 		} catch (err) {
+			console.log(err);
 			return res.status(500).json({
 				success: false,
 				message: "There was an error...",
@@ -64,24 +82,25 @@ class Car {
 			}
 			let allowed = false;
 			const startPeriod1 = moment(date);
-			startPeriod1.set('hour',6);
-			startPeriod1.set('minute',0);
-			startPeriod1.set('second',0);
+			startPeriod1.set("hour", 6);
+			startPeriod1.set("minute", 0);
+			startPeriod1.set("second", 0);
 			const endPeriod1 = moment(date);
-			endPeriod1.set('hour',9);
-			endPeriod1.set('minute',30);
-			endPeriod1.set('second',0);
+			endPeriod1.set("hour", 9);
+			endPeriod1.set("minute", 30);
+			endPeriod1.set("second", 0);
 			const startPeriod2 = moment(date);
-			startPeriod2.set('hour',16);
-			startPeriod2.set('minute',0);
-			startPeriod2.set('second',0);
+			startPeriod2.set("hour", 16);
+			startPeriod2.set("minute", 0);
+			startPeriod2.set("second", 0);
 			const endPeriod2 = moment(date);
-			endPeriod2.set('hour',21);
-			endPeriod2.set('minute',0);
-			endPeriod2.set('second',0);
+			endPeriod2.set("hour", 21);
+			endPeriod2.set("minute", 0);
+			endPeriod2.set("second", 0);
 			if (
 				allowedNumbers.includes(parseInt(lastNumber)) &&
-				(!moment(date).isBetween(startPeriod1, endPeriod1) && !moment(date).isBetween(startPeriod2, endPeriod2))
+				!moment(date).isBetween(startPeriod1, endPeriod1) &&
+				!moment(date).isBetween(startPeriod2, endPeriod2)
 			) {
 				allowed = true;
 			}
@@ -92,7 +111,7 @@ class Car {
 			if (!car) {
 				return res.status(200).json({
 					success: false,
-					message: `There are not a car with this id (${placa})`,
+					message: `There are not a car with this car plate: (${placa})`,
 					car,
 				});
 			}
