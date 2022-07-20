@@ -48,15 +48,17 @@ class Car {
 	async checkCirculation(req, res) {
 		try {
 			const { placa, date } = req.query;
-			console.log(date);
-			console.log(moment.utc().format("YYYY-MM-DD HH:mm"));
-			if (moment.utc(new Date().toISOString()).diff(moment.utc(new Date(date).toISOString()), "minutes") > 1) {
+			const serverTime = moment(new Date()).utc().utcOffset("+05:30");
+			const inputTime = moment(new Date(date)).utc().utcOffset("+05:30");
+			console.log(serverTime);
+			console.log(inputTime);
+			if (serverTime.diff(inputTime, "minutes") > 1) {
 				return res.status(200).json({
 					success: false,
 					message: `The date cannot be less than current date`,
 					info: {
-						currentDate: moment.utc(new Date().toISOString()),
-						inputDate: moment.utc(new Date(date).toISOString()),
+						currentDate: serverTime,
+						inputDate: inputTime,
 					},
 				});
 			}
@@ -125,8 +127,8 @@ class Car {
 				day: days[day - 1],
 				allowed,
 				info: {
-					currentDate: moment.utc(),
-					inputDate: moment.utc(new Date(date).toISOString()),
+					currentDate: serverTime,
+					inputDate: inputTime,
 				},
 			});
 		} catch (err) {
