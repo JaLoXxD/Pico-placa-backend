@@ -48,7 +48,7 @@ class Car {
 	async checkCirculation(req, res) {
 		try {
 			const { placa, date } = req.query;
-			const serverTime = moment(new Date()).utc().utcOffset("+05:30");
+			const serverTime = moment();
 			const inputTime = moment(new Date(date)).utc().utcOffset("+05:30");
 			console.log(serverTime);
 			console.log(inputTime);
