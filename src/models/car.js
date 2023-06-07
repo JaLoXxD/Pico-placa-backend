@@ -2,11 +2,12 @@ const { Schema, model } = require("mongoose");
 const uniqueValidator = require("mongoose-unique-validator");
 
 const carSchema = new Schema({
-	placa: { type: String, unique: true },
+	plate: { type: String, unique: true },
 	color: { type: String },
-	modelo: { type: String },
+	carModel: { type: String },
 	chasis: { type: String },
-	anio: { type: Number },
+	year: { type: Number },
+	user: { type: Schema.Types.ObjectId, ref: 'user' } // Reference field to the user schema
 });
 
 carSchema.plugin(uniqueValidator, {
